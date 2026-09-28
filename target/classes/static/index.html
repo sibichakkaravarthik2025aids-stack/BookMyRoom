@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookMyRoom - Guest House Room Booking</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+    <header class="header">
+        <div>
+            <h1>🏨 BookMyRoom</h1>
+            <p>Guest House Room Booking System</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <button onclick="showSection('dashboard')">Dashboard</button>
+        <button onclick="showSection('rooms')">Rooms</button>
+        <button onclick="showSection('guests')">Guests</button>
+        <button onclick="showSection('bookings')">Bookings</button>
+        <button onclick="showSection('availability')">Availability</button>
+        <button onclick="showSection('reports')">Reports</button>
+    </nav>
+
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="section active">
+
+        <h2>Dashboard</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="card-icon">🏨</div>
+                <h3>Rooms</h3>
+                <p>Manage guest house rooms</p>
+                <button onclick="showSection('rooms')">
+                    Manage Rooms
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">👤</div>
+                <h3>Guests</h3>
+                <p>Manage guest information</p>
+                <button onclick="showSection('guests')">
+                    Manage Guests
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📅</div>
+                <h3>Bookings</h3>
+                <p>Create and cancel bookings</p>
+                <button onclick="showSection('bookings')">
+                    Manage Bookings
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Reports</h3>
+                <p>View monthly occupancy</p>
+                <button onclick="showSection('reports')">
+                    View Reports
+                </button>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Rooms -->
+    <section id="rooms" class="section">
+
+        <h2>🏨 Room Management</h2>
+
+        <div class="form-card">
+
+            <h3>Add / Update Room</h3>
+
+            <input type="hidden" id="roomId">
+
+            <input
+                    type="text"
+                    id="roomType"
+                    placeholder="Room Type">
+
+            <input
+                    type="number"
+                    id="roomCapacity"
+                    placeholder="Capacity">
+
+            <input
+                    type="number"
+                    id="roomRate"
+                    placeholder="Rate per Night">
+
+            <button onclick="saveRoom()">
+                Save Room
+            </button>
+
+            <button class="secondary" onclick="clearRoomForm()">
+                Clear
+            </button>
+
+        </div>
+
+        <div class="table-card">
+
+            <div class="section-heading">
+                <h3>All Rooms</h3>
+
+                <button onclick="loadRooms()">
+                    Refresh
+                </button>
+            </div>
+
+            <table>
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Room Type</th>
+                    <th>Capacity</th>
+                    <th>Rate / Night</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody id="roomTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- Guests -->
+    <section id="guests" class="section">
+
+        <h2>👤 Guest Management</h2>
+
+        <div class="form-card">
+
+            <h3>Add / Update Guest</h3>
+
+            <input type="hidden" id="guestId">
+
+            <input
+                    type="text"
+                    id="guestName"
+                    placeholder="Guest Name">
+
+            <input
+                    type="email"
+                    id="guestEmail"
+                    placeholder="Email">
+
+            <input
+                    type="text"
+                    id="guestPhone"
+                    placeholder="Phone Number">
+
+            <button onclick="saveGuest()">
+                Save Guest
+            </button>
+
+            <button class="secondary" onclick="clearGuestForm()">
+                Clear
+            </button>
+
+        </div>
+
+        <div class="table-card">
+
+            <div class="section-heading">
+                <h3>All Guests</h3>
+
+                <button onclick="loadGuests()">
+                    Refresh
+                </button>
+            </div>
+
+            <table>
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody id="guestTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- Bookings -->
+    <section id="bookings" class="section">
+
+        <h2>📅 Booking Management</h2>
+
+        <div class="form-card">
+
+            <h3>Create Booking</h3>
+
+            <input
+                    type="number"
+                    id="bookingRoomId"
+                    placeholder="Room ID">
+
+            <input
+                    type="number"
+                    id="bookingGuestId"
+                    placeholder="Guest ID">
+
+            <label>Check-in Date</label>
+
+            <input
+                    type="date"
+                    id="checkInDate">
+
+            <label>Check-out Date</label>
+
+            <input
+                    type="date"
+                    id="checkOutDate">
+
+            <button onclick="createBooking()">
+                Create Booking
+            </button>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <div class="section-heading">
+
+                <h3>All Bookings</h3>
+
+                <button onclick="loadBookings()">
+                    Refresh
+                </button>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Room</th>
+                    <th>Guest</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>Total Cost</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+                </thead>
+
+                <tbody id="bookingTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- Availability -->
+    <section id="availability" class="section">
+
+        <h2>🔍 Room Availability</h2>
+
+        <div class="form-card">
+
+            <label>Check-in Date</label>
+
+            <input
+                    type="date"
+                    id="availabilityCheckIn">
+
+            <label>Check-out Date</label>
+
+            <input
+                    type="date"
+                    id="availabilityCheckOut">
+
+            <button onclick="checkAvailability()">
+                Check Availability
+            </button>
+
+        </div>
+
+        <div class="table-card">
+
+            <h3>Available Rooms</h3>
+
+            <table>
+
+                <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Room Type</th>
+                    <th>Capacity</th>
+                    <th>Rate / Night</th>
+                </tr>
+
+                </thead>
+
+                <tbody id="availabilityTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- Reports -->
+    <section id="reports" class="section">
+
+        <h2>📊 Monthly Occupancy Report</h2>
+
+        <div class="form-card">
+
+            <input
+                    type="number"
+                    id="reportYear"
+                    placeholder="Year"
+                    value="2026">
+
+            <input
+                    type="number"
+                    id="reportMonth"
+                    placeholder="Month"
+                    min="1"
+                    max="12"
+                    value="10">
+
+            <button onclick="getReport()">
+                Generate Report
+            </button>
+
+        </div>
+
+
+        <div id="reportResult" class="report-card">
+
+            <p>Select year and month to generate report.</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Message -->
+    <div id="messageBox"></div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
